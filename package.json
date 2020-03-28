@@ -1,24 +1,26 @@
 {
-  "name": "final-project",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "dependencies": {
-    "express": "^4.17.1"
-  },
-  "devDependencies": {},
+  "name": "books-with-seeds",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www",
+    "dev": "DEBUG=books-with-seeds:* nodemon ./bin/www",
+    "dev-windows": "nodemon ./bin/www"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/KaylaMM/Project-3.git"
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-mongo": "^3.2.0",
+    "cookie-parser": "^1.4.3",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "express-session": "^1.17.0",
+    "mongoose": "^5.2.10",
+    "morgan": "^1.9.0",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "serve-favicon": "^2.5.0"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/KaylaMM/Project-3/issues"
-  },
-  "homepage": "https://github.com/KaylaMM/Project-3#readme"
+  "devDependencies": {
+    "nodemon": "^1.12.1"
+  }
 }
