@@ -41,5 +41,5 @@ const Plant = new Schema(
   { timestamps: true }
 );
 
-const Plant = model("Plant", PlantPage);
+const Plant = model("Plant", Plant);
 module.exports = Plant;
