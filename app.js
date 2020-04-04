@@ -12,6 +12,7 @@ const session = require("express-session");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const flash = require("connect-flash");
 
 mongoose
   .connect("mongodb://localhost/final-project-server-side", {
@@ -65,6 +66,8 @@ passport.deserializeUser((id, callback) => {
       callback(error);
     });
 });
+
+app.use(flash());
 
 passport.use(
   new LocalStrategy((username, password, callback) => {
