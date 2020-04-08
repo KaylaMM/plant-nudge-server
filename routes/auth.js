@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
 const ensureLogin = require("connect-ensure-login");
 
-// user signup =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+// User SignUp
 router.get("/signup", (req, res, next) => {
   res.render("auth/signup");
 });
@@ -47,7 +47,7 @@ router.post("/signup", (req, res, next) => {
 
 module.exports = router;
 
-//user login =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+//User LogIn
 router.get("/login", (req, res, next) => {
   res.render("auth/login", { message: req.flash("error") });
 });
@@ -70,7 +70,7 @@ router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("private", { user: req.user });
 });
 
-// user logout =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+// User LogOut =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 router.get("/logout", (req, res) => {
   req.session.destroy();
   res.redirect("/");

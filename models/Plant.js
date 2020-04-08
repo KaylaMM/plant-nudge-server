@@ -7,36 +7,36 @@ const Plant = new Schema(
     // the user that created the board
     plant: {
       type: Schema.Types.ObjectId,
-      ref: "User"
+      ref: "Plant",
     },
     // the title for the board that will be displayed to users
     location: {
-      type: String
+      type: String,
     },
     // the jokes that will belong to the board
     dateLastWatered: {
       type: [
         {
-          type: Schema.Types.ObjectId
+          type: Schema.Types.ObjectId,
           // ref: "Memes"
-        }
-      ]
+        },
+      ],
     },
     // the messages that belong to this board
     amountOfWaterNeeded: {
       type: [
         {
           type: Schema.Types.ObjectId,
-          ref: "Message"
-        }
-      ]
+          ref: "Message",
+        },
+      ],
     },
     // plant photo
-    avatar: {
+    progressPic: {
       type: String,
       default:
-        "https://i.pinimg.com/originals/a2/71/a3/a271a31dd5be2fe5bab0addf377aa13d.jpg"
-    }
+        "https://i.pinimg.com/originals/a2/71/a3/a271a31dd5be2fe5bab0addf377aa13d.jpg",
+    },
   },
   { timestamps: true }
 );
