@@ -1,29 +1,36 @@
 const express = require("express");
-const passport = require("passport");
 const router = express.Router();
 const User = require("../models/User");
+const passport = require("passport");
 // const uploadCloud = require("../config/cloudinary-setup");
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
-const ensureLogin = require("connect-ensure-login");
+// const ensureLogin = require("connect-ensure-login");
 
 // User SignUp
-router.get("/signup", (req, res, next) => {
-  res.render("auth/signup");
-});
-
 router.post("/signup", (req, res, next) => {
-  const { username, password } = req.body;
+  const { username, email, password } = req.body;
 
-  if (!username || !password) {
-    res.render("auth/signup", { message: "Indicate username and password" });
+  if (!username || !email || !password) {
+    res.status(401).json({ message: "Indicate username, email and password" });
     return;
   }
+
+  //Password Validation
+  const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+  if (!regex.test(password)) {
+    res.json({
+      message:
+        "Password needs to have at least 8 characters, and must contain at least one number, one lowercase and one uppercase letter.",
+    });
+    return;
+  }
+  //End of Password Validation
 
   User.findOne({ username })
     .then((user) => {
       if (user !== null) {
-        res.render("auth/signup", { message: "The username already exists" });
+        res.status(500).json({ message: "The username already exists" });
         return;
       }
 
@@ -35,45 +42,69 @@ router.post("/signup", (req, res, next) => {
         password: hashPass,
       });
 
-      return newUser.save();
-    })
-    .then(() => {
-      res.redirect("/");
-    })
-    .catch((error) => {
-      res.render("auth/signup", { message: "Something went wrong" });
-    });
-});
+      return newUser.save(error => {
+        if(error){
+          res.status(400).json({message: 'Saving user to database went wrong.'});
+          return;
+        }
 
-module.exports = router;
+        req.login(newUser, (error) => {
+          if (error){
+            res.status(500).json({message: 'Login after signuo went bad.'});
+            return;
+          }
+
+          res.status(200).json({message: 'successfully logged in'});
+
+        })
+      });
+   
+});
 
 //User LogIn
-router.get("/login", (req, res, next) => {
-  res.render("auth/login", { message: req.flash("error") });
+router.post('/login', (req,res, next) => {
+  passport.authenticate('local', (errror, theUser, failureDetails) => {
+    if(error){
+      res.status(500).json({message: "Something went wrong authentication user"});
+      return;
+    }
+
+    if(!theUser){
+      res.status(401).json(failureDetails);
+      return;
+    }
+
+    //Save User in Session
+    req.login(theUser, (error) => {
+      if(error){
+        res.status(500).json({message: "Save session went bad."});
+        return;
+      }
+      return.status(200).json(theUser);
+    });
+  })(req, res, next);
+})
+
+
+
+// User LogOut
+router.post('/logout', (req, res, next) => {
+  req.logout();
+  res.status(200).json({message: "Log out success!"});
 });
 
-router.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/login",
-    failureFlash: true,
-    passReqToCallback: true,
-  })
-);
+//.get User Route for Frontend
+router.get('/getCurrentUser', (req, res, next) => {
+  if(req.user){
+    let newObject = {};
+    newObject.username = req.user.username;
+    newObject._id = req.user._id;
 
-router.get("/signup", (req, res, next) => {
-  res.render("auth/signup");
+    res.status(200).json(newObject);
+    return;
+  }
+  res.status(403).json({message: 'Unauthorized'});
 });
 
-router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render("private", { user: req.user });
-});
-
-// User LogOut =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-router.get("/logout", (req, res) => {
-  req.session.destroy();
-  res.redirect("/");
-});
 
 module.exports = router;
