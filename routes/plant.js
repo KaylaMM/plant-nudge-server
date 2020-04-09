@@ -7,7 +7,7 @@ const Plant = require("../models/Plant");
 
 router.get("/plant", (req, res, next) => {
   //React Form Component
-  res.render("plants");
+  res.json(allPlants);
 });
 
 //Create a new Plant
@@ -41,23 +41,23 @@ router.post("/plant", (req, res, next) => {
 router.get('/plant', (req, res, next) => {
   Plant.find(allUserPlantsFromDB)
   .then(allUserPlantsFromDB => {
-    console.log('Retrieved books from DB:', allUserPlantsFromDB);
+    console.log('Retrieved plants from DB:', allUserPlantsFromDB);
   })
   .catch(error => {
     console.log('Error while getting the plants from the DB: ', error);
   })
-  res.render('plants')
+  res.json(allPlants)
 })
 
 router.get('/plant/:plantId', (req, res, next) => {
   console.log('The ID from the URL is: ', plantId);
-  res.render('plants');
+  res.json(allPlants);
 });
 
 router.get('/plant/:plantId', (req, res, next) => {
   Book.findOne({'_id': req.params.bookId})
     .then(thePlant => {
-      res.render('plants', { plant: thePlant });
+      res.json(allPlants, { plant: thePlant });
     })
     .catch(error => {
       console.log('Error while retrieving plant details: ', error);
@@ -68,13 +68,13 @@ router.get('/plant/:plantId', (req, res, next) => {
 //Update a Plant
 router.get('/plant', (req, res, next) => {
   //React Update Form Component 
-  res.render("plant-update")
+  res.json(plantUpdate)
 });
 
 router.get('/plant', (req, res, next) => {
   Plant.findOne({_id: req.querey.plant_id})
   .then((plant) => {
-    res.render("plant-update", {plant});
+    res.json(plantUpdate, {plant});
   })
   .catch((error) => {
     console.log(error);
@@ -93,7 +93,7 @@ router.post('/plant', (req, res, next) => {
   Plant.update({_id: req.query.plant_id}, { $set: {plant, location, dateLastWatered, amountOfWaterNeeded, progressPic}
   })
   .then((updatedPlant) => {
-    res.redirect('/plants');
+    res.json(allPlants, {updatedPlant});
   })
   .catch((error) => {
     console.log(error);
