@@ -18,7 +18,7 @@ const Plant = new Schema(
       type: [
         {
           type: Schema.Types.ObjectId,
-          // ref: "Memes"
+          ref: "Type",
         },
       ],
     },
@@ -27,7 +27,7 @@ const Plant = new Schema(
       type: [
         {
           type: Schema.Types.ObjectId,
-          ref: "Message",
+          ref: "Water",
         },
       ],
     },
@@ -41,5 +41,5 @@ const Plant = new Schema(
   { timestamps: true }
 );
 
-const Plant = model("Plant", Plant);
+const Plant = model("Plant", plantSchema);
 module.exports = Plant;
