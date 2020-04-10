@@ -2,10 +2,12 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 const passport = require("passport");
-// const uploadCloud = require("../config/cloudinary-setup");
 const bcrypt = require("bcrypt");
-const bcryptSalt = 10;
+const saltRounds = 10;
+// const uploadCloud = require("../config/cloudinary-setup");
 // const ensureLogin = require("connect-ensure-login");
+
+
 
 // User SignUp
 router.post("/signup", (req, res, next) => {
@@ -16,56 +18,53 @@ router.post("/signup", (req, res, next) => {
     return;
   }
 
+  
   //Password Validation
   const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
   if (!regex.test(password)) {
-    res.json({
+    res.status(500).json({
       message:
         "Password needs to have at least 8 characters, and must contain at least one number, one lowercase and one uppercase letter.",
     });
     return;
   }
-  //End of Password Validation
-
-  User.findOne({ username })
-    .then((user) => {
-      if (user !== null) {
-        res.status(500).json({ message: "The username already exists" });
-        return;
+ 
+  bcrypt
+  .genSalt(saltRounds)
+  .then(salt => bcrypt.hash(password, salt))
+  .then(hashedPassword => {
+    return User.create({
+      username, 
+      email,
+      passwordHash: hashedPassword
+    })
+    .then(user => {
+      req.login(user, err => {
+        if (error)
+        return res.status(500)json({message: 'something went wrong with log in!'});
+        user.passwordHash = undefined;
+        res.status(200).json({message: 'Login successful!', user});
+      });
+    })
+    .catch(error => {
+      if (error instanceof mongoose.Error.ValidationError){
+        res.status(500).json({message: err.message});
+      } else if (error.code === 11000){
+        res.status(500).json({message: 'Username and email need to be unique. Either username or email is already in use.'});
+      } else {
+        next(error);
       }
+    })
+    .catch(error => next(error));
+  });
+  
 
-      const salt = bcrypt.genSaltSync(bcryptSalt);
-      const hashPass = bcrypt.hashSync(password, salt);
-
-      const newUser = new User({
-        username,
-        password: hashPass,
-      });
-
-      return newUser.save(error => {
-        if(error){
-          res.status(400).json({message: 'Saving user to database went wrong.'});
-          return;
-        }
-
-        req.login(newUser, (error) => {
-          if (error){
-            res.status(500).json({message: 'Login after signuo went bad.'});
-            return;
-          }
-
-          res.status(200).json({message: 'successfully logged in'});
-
-        })
-      });
-   
-});
-
+  
 //User LogIn
 router.post('/login', (req,res, next) => {
   passport.authenticate('local', (errror, theUser, failureDetails) => {
     if(error){
-      res.status(500).json({message: "Something went wrong authentication user"});
+      res.status(500).json({message: "Something went wrong with database query"});
       return;
     }
 
@@ -74,17 +73,18 @@ router.post('/login', (req,res, next) => {
       return;
     }
 
+
     //Save User in Session
     req.login(theUser, (error) => {
       if(error){
-        res.status(500).json({message: "Save session went bad."});
+        res.status(500).json({message: "Something went wrong with login!"});
+        user.passwordHash = undefined;
         return;
       }
-      return.status(200).json(theUser);
+      res.status(200).json({message: 'Login successful!', theUser});
     });
   })(req, res, next);
-})
-
+});
 
 
 // User LogOut
@@ -93,18 +93,16 @@ router.post('/logout', (req, res, next) => {
   res.status(200).json({message: "Log out success!"});
 });
 
-//.get User Route for Frontend
-router.get('/getCurrentUser', (req, res, next) => {
-  if(req.user){
-    let newObject = {};
-    newObject.username = req.user.username;
-    newObject._id = req.user._id;
 
-    res.status(200).json(newObject);
+router.get('/isLoggedIn', (req, res) => {
+  if(req.user) {
+    console.log('here: ', req.user);
+    req.user.passwordHash = undefined;
+    res.status(200).json({user: req.user});
     return;
   }
-  res.status(403).json({message: 'Unauthorized'});
-});
+  res.status(401).json({message: 'Unauthorized access!'});
+})
 
 
 module.exports = router;
