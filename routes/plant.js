@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 const Plant = require("../models/Plant");
+const uploadCloud = require("../config/cloudinary-setup");
 // const mongoose = require("mongoose");
 // const ensureLogin = require("connect-ensure-login");
-// const uploadCloud = require("../config/cloudinary-setup");
 
 //User Homepage
 router.get("/", (req, res, next) => {

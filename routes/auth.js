@@ -57,6 +57,7 @@ router.post("/signup", (req, res, next) => {
     })
     .catch(error => next(error));
   });
+});
   
 
   
