@@ -37,8 +37,17 @@ const plantSchema = new Schema(
       default:
         "https://i.pinimg.com/originals/a2/71/a3/a271a31dd5be2fe5bab0addf377aa13d.jpg",
     },
+    // Plant Page created by user
+    owner: {
+      type: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 module.exports = model("Plant", plantSchema);

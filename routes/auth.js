@@ -15,7 +15,7 @@ const ensureLogin = require("connect-ensure-login");
 
 // User SignUp
 router.post("/signup", (req, res, next) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, phoneNumber } = req.body;
 
   if (!username || !email || !password) {
     res.status(401).json({ message: "Indicate username, email and password" });
@@ -40,9 +40,10 @@ router.post("/signup", (req, res, next) => {
         username,
         email,
         passwordHash: hashedPassword,
+        phoneNumber,
       })
         .then((user) => {
-          req.login(user, (err) => {
+          req.login(user, (error) => {
             if (error)
               return res
                 .status(500)
@@ -53,7 +54,7 @@ router.post("/signup", (req, res, next) => {
         })
         .catch((error) => {
           if (error instanceof mongoose.Error.ValidationError) {
-            res.status(500).json({ message: err.message });
+            res.status(500).json({ message: error.message });
           } else if (error.code === 11000) {
             res.status(500).json({
               message:

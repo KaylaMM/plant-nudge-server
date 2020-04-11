@@ -37,31 +37,32 @@ router.post("/newPlant", async (req, res, next) => {
 });
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 //Read (Plant) Documents
-// router.get('/plant', (req, res, next) => {
-//   Plant.find(allUserPlantsFromDB)
-//   .then(allUserPlantsFromDB => {
-//     console.log('Retrieved plants from DB:', allUserPlantsFromDB);
-//   })
-//   .catch(error => {
-//     console.log('Error while getting the plants from the DB: ', error);
-//   })
-//   res.json(allPlants)
-// })
+router.get("/plant", (req, res, next) => {
+  console.log(req.user);
+  Plant.find({ owner: req.user._id })
+    .then((allUserPlantsFromDB) => {
+      console.log("Retrieved plants from DB:", allUserPlantsFromDB);
+      res.json(allUserPlantsFromDB);
+    })
+    .catch((error) => {
+      console.log("Error while getting the plants from the DB: ", error);
+    });
+});
 
-// router.get('/plant/:plantId', (req, res, next) => {
-//   console.log('The ID from the URL is: ', plantId);
-//   res.json(allPlants);
-// });
+router.get("/plant/:plantId", (req, res, next) => {
+  console.log("The ID from the URL is: ", plantId);
+  res.json(allPlants);
+});
 
-// router.get('/plant/:plantId', (req, res, next) => {
-//   Book.findOne({'_id': req.params.bookId})
-//     .then(thePlant => {
-//       res.json(allPlants, { plant: thePlant });
-//     })
-//     .catch(error => {
-//       console.log('Error while retrieving plant details: ', error);
-//     })
-// });
+router.get("/plant/:plantId", (req, res, next) => {
+  Plant.findOne({ _id: req.params.plantId })
+    .then((thePlant) => {
+      res.json(allPlants, { plant: thePlant });
+    })
+    .catch((error) => {
+      console.log("Error while retrieving plant details: ", error);
+    });
+});
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 //Update a Plant
