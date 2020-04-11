@@ -1,25 +1,22 @@
 require("dotenv").config();
 
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 const express = require("express");
 const mongoose = require("mongoose");
 const logger = require("morgan");
 const path = require("path");
 const cors = require("cors");
-const session = require("express-session");
-const passport = require("passport");
-
-// require("./config/passport-login");
 
 mongoose
-  .connect(process.env.MONGO_URI, { useNewUrlParser: true })
+  .connect("mongodb://localhost/cloudinary-server", { useNewUrlParser: true })
   .then((x) => {
     console.log(
       `Connected to Mongo! Database name: "${x.connections[0].name}"`
     );
   })
-  .catch((err) => {
-    console.error("Error connecting to mongo", err);
+  .catch((error) => {
+    console.error("Error connecting to mongo", error);
   });
 
 const app_name = require("./package.json").name;
@@ -29,27 +26,29 @@ const debug = require("debug")(
 
 const app = express();
 
+require("./configs/db.config");
+
 // Middleware Setup
 app.use(logger("dev"));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-//PassPort Middleware Setup
-app.use(
-  session({
-    secret: "our-passport-local-strategy-app",
-    resave: true,
-    saveUninitialized: true,
-  })
-);
-app.use(passport.initialize());
-app.use(passport.session());
+require("./config/session.config.js")(app);
+
+require("./configs/passport/passport.config.js")(app);
+
+app.use(express.static(path.join(__dirname, "public")));
+app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
+
+// default value for title local
+app.locals.title = "Express - Generated with IronGenerator";
 
 app.use(
   cors({
+    // origin: ["http://localhost:3000", "https://herokuAppDomainURL"]
+    origin: [process.env.FRONTEND_POINT],
     credentials: true,
-    origin: ["http:localhost3000", "front-end-of-app"],
   })
 );
 

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-const User = require("./User");
-const Plant = require("./Plant ");
 const { Schema, model } = mongoose;
+// const User = require("./User");
+// const Plant = require("./Plant ");
 
 const PlantProgress = new Schema(
   {
