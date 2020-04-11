@@ -26,7 +26,7 @@ const debug = require("debug")(
 
 const app = express();
 
-require("./configs/db.config");
+require("./config/db.config");
 
 // Middleware Setup
 app.use(logger("dev"));
@@ -36,18 +36,18 @@ app.use(cookieParser());
 
 require("./config/session.config.js")(app);
 
-require("./configs/passport/passport.config.js")(app);
+require("./config/passport/passport.config.js")(app);
 
 app.use(express.static(path.join(__dirname, "public")));
-app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
+// app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 
 // default value for title local
 app.locals.title = "Express - Generated with IronGenerator";
 
 app.use(
   cors({
-    // origin: ["http://localhost:3000", "https://herokuAppDomainURL"]
-    origin: [process.env.FRONTEND_POINT],
+    origin: ["http://localhost:3000", "https://herokuAppDomainURL"],
+    // origin: [process.env.FRONTEND_POINT],
     credentials: true,
   })
 );
@@ -56,6 +56,6 @@ app.use(
 app.use("/", require("./routes/index"));
 app.use("/auth", require("./routes/auth"));
 app.use("/allPlants", require("./routes/plant"));
-app.use("/plantProgress", require("./routes/progress"));
+// app.use("/plantProgress", require("./routes/progress"));
 
 module.exports = app;

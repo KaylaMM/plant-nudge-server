@@ -1,6 +1,8 @@
-const mongoose = require("mongoose");
-const { Schema, model } = mongoose;
+// const mongoose = require("mongoose");
+// const { Schema, model } = mongoose;
 // const Plant = require("./Plant ");
+
+const { Schema, model } = require("mongoose");
 
 const userSchema = new Schema(
   {
@@ -27,7 +29,8 @@ const userSchema = new Schema(
       trim: true,
     },
     // Phonenumber provided by users during signup
-    phonenumber: {
+    //ISSUES WITH PHONE NUMBER REQUIERD
+    phoneNumber: {
       number: Number,
       required: [true, "Phone number is required."],
       trim: true,
@@ -53,5 +56,4 @@ const userSchema = new Schema(
   }
 );
 
-const User = model("User", userSchema);
-module.exports = User;
+module.exports = model("User", userSchema);

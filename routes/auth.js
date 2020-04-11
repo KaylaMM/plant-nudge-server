@@ -1,12 +1,15 @@
-const { Router } = require("express");
-const router = new Router();
+// const { Router } = require("express");
+// const router = new Router();
+
+const express = require("express");
+const router = express.Router();
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 const saltRounds = 10;
 const passport = require("passport");
 const User = require("../models/User");
 
-const routeGuard = require("../configs/route-guard.config");
+const routeGuard = require("../config/route-guard.config");
 const uploadCloud = require("../config/cloudinary-setup");
 const ensureLogin = require("connect-ensure-login");
 

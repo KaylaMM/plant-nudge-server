@@ -1,5 +1,5 @@
-const passport = require('passport');
-const User = require('../../models/User.model');
+const passport = require("passport");
+const User = require("../../models/User");
 
 // defines which data are going to be saved in the session
 // happens when user log in successfully
@@ -15,6 +15,6 @@ passport.serializeUser((loggedInUser, next) => {
 passport.deserializeUser((userIdFromSession, next) => {
   // deserialize user => retrieve user information from database
   User.findById(userIdFromSession)
-    .then(fullUserDoc => next(null, fullUserDoc))
-    .catch(err => next(err));
+    .then((fullUserDoc) => next(null, fullUserDoc))
+    .catch((err) => next(err));
 });

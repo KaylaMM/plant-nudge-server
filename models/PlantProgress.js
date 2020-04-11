@@ -1,9 +1,11 @@
-const mongoose = require("mongoose");
-const { Schema, model } = mongoose;
+// const mongoose = require("mongoose");
+// const { Schema, model } = mongoose;
 // const User = require("./User");
 // const Plant = require("./Plant ");
 
-const PlantProgress = new Schema(
+const { Schema, model } = require("mongoose");
+
+const plantProgressSchema = new Schema(
   {
     // the user that created the board
     plant: {
@@ -20,5 +22,4 @@ const PlantProgress = new Schema(
   { timestamps: true }
 );
 
-const PlantProgress = model("Plant Progress", plantProgressSchema);
-module.exports = PlantProgress;
+module.exports = model("PlantProgress", plantProgressSchema);

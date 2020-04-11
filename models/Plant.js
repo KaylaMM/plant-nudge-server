@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
-const { Schema, model } = mongoose;
+// const mongoose = require("mongoose");
+const { Schema, model } = require("mongoose");
 // const User = require("./User");
 
-const Plant = new Schema(
+const plantSchema = new Schema(
   {
     // the user that created the board
     plant: {
@@ -41,5 +41,4 @@ const Plant = new Schema(
   { timestamps: true }
 );
 
-const Plant = model("Plant", plantSchema);
-module.exports = Plant;
+module.exports = model("Plant", plantSchema);
