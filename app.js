@@ -46,7 +46,7 @@ app.locals.title = "Express - Generated with IronGenerator";
 
 app.use(
   cors({
-    origin: ["http://localhost:5001", "https://herokuAppDomainURL"],
+    origin: ["http://localhost:3001", "https://herokuAppDomainURL"],
     // origin: [process.env.FRONTEND_POINT],
     credentials: true,
   })
@@ -56,6 +56,7 @@ app.use(
 app.use("/", require("./routes/index"));
 app.use("/auth", require("./routes/auth"));
 app.use("/allPlants", require("./routes/plant"));
+app.use("/user", require("./routes/user"));
 // app.use("/plantProgress", require("./routes/progress"));
 
 module.exports = app;

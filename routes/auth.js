@@ -16,7 +16,7 @@ const ensureLogin = require("connect-ensure-login");
 // User SignUp
 router.post("/signup", (req, res, next) => {
   const { username, email, password, phoneNumber, avatar } = req.body;
-
+  console.log("BODY", username, email, password);
   if (!username || !email || !password) {
     res.status(401).json({ message: "Indicate username, email and password" });
     return;

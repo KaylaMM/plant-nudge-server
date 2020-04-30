@@ -7,6 +7,7 @@ const uploadCloud = require("../config/cloudinary-setup");
 // const ensureLogin = require("connect-ensure-login");
 
 //User Homepage
+//Talk to Stefan to double check about "/" - not sure if this will render plants. Unsure about endpoints
 router.get("/", (req, res, next) => {
   User.findById(req.res._id)
     .populate("plants")
@@ -39,7 +40,7 @@ router.post("/newPlant", async (req, res, next) => {
 //Read (Plant) Documents
 router.get("/plant", (req, res, next) => {
   console.log(req.user);
-  Plant.find({ owner: req.user._id })
+  Plant.find({ owner: req.params._id })
     .then((allUserPlantsFromDB) => {
       console.log("Retrieved plants from DB:", allUserPlantsFromDB);
       res.json(allUserPlantsFromDB);

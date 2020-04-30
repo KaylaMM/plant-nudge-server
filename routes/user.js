@@ -7,12 +7,27 @@ const uploadCloud = require("../config/cloudinary-setup");
 
 const routeGuard = require("../../configs/route-guard.configs");
 
+//to get all users in DB
+router.get("/allUsers", (req, res, next) => {
+  console.log(req);
+  //not sure if get all is the correct method
+  User.getAll()
+    .then((usersFromDB) => {
+      console.log(usersFromDB);
+      res.json(usersFromDB);
+    })
+    .catch((error) => {
+      console.log("Error while getting the plants from the DB: ", error);
+    });
+});
+
+//get current user profile picture
 router.get("/user/:userId", (req, res, next) => {
   console.log(req.user);
-  User.find({ _id: req.params.userId })
-    .then((allUserPlantsFromDB) => {
-      console.log("Retrieved plants from DB:", allUserPlantsFromDB);
-      res.json(allUserPlantsFromDB);
+  User.findById({ user: req.params.userId })
+    .then((userFromDB) => {
+      console.log(userFromDB);
+      res.json(userFromDB);
     })
     .catch((error) => {
       console.log("Error while getting the plants from the DB: ", error);
