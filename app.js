@@ -46,7 +46,7 @@ app.locals.title = "Express - Generated with IronGenerator";
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://herokuAppDomainURL"],
+    origin: ["http://localhost:5001", "https://herokuAppDomainURL"],
     // origin: [process.env.FRONTEND_POINT],
     credentials: true,
   })
