@@ -23,7 +23,7 @@ router.post("/newPlant", async (req, res, next) => {
   const newPlant = new Plant({
     plant: req.body.plant,
     location: req.body.location,
-    dateLastWatered: req.body.dateLastWatered,
+    nextWatering: req.body.next,
     amountOfWaterNeeded: req.body.amountOfWaterNeeded,
     progressPic: req.body.progressPic,
   });
@@ -40,6 +40,7 @@ router.post("/newPlant", async (req, res, next) => {
 //Read (Plant) Documents
 router.get("/plant", (req, res, next) => {
   console.log(req.user);
+  //below is axios call
   Plant.find({ owner: req.params._id })
     .then((allUserPlantsFromDB) => {
       console.log("Retrieved plants from DB:", allUserPlantsFromDB);
@@ -74,7 +75,7 @@ router.post("/updatePlant/:id", (req, res, next) => {
     {
       plant: req.body.plant,
       location: req.body.location,
-      dateLastWatered: req.body.dateLastWatered,
+      nextWatering: req.body.nextWatering,
       amountOfWaterNeeded: req.body.amountOfWaterNeeded,
       progressPic: req.body.progressPic,
     },

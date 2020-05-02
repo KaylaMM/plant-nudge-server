@@ -8,7 +8,7 @@ const uploadCloud = require("../config/cloudinary-setup");
 const routeGuard = require("../../configs/route-guard.configs");
 
 //to get all users in DB
-router.get("/allUsers", (req, res, next) => {
+router.get("/user", (req, res, next) => {
   console.log(req);
   //not sure if get all is the correct method
   User.getAll()

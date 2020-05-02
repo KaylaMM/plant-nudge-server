@@ -14,7 +14,7 @@ const plantSchema = new Schema(
       type: String,
     },
     // the jokes that will belong to the board
-    dateLastWatered: {
+    nextWatering: {
       type: [
         {
           type: Schema.Types.ObjectId,
