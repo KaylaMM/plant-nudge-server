@@ -1,9 +1,10 @@
+//not sure if the two variables below are needed
 // const { Router } = require("express");
 // const router = new Router();
-
+//-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const saltRounds = 10;
 const passport = require("passport");
@@ -49,7 +50,7 @@ router.post("/signup", (req, res, next) => {
               return res
                 .status(500)
                 .json({ message: "something went wrong with log in!" });
-            user.passwordHash = undefined;
+            // user.passwordHash = undefined;
             res.status(200).json({ message: "Login successful!", user });
           });
         })
@@ -71,6 +72,7 @@ router.post("/signup", (req, res, next) => {
 
 //User LogIn
 router.post("/login", (req, res, next) => {
+  console.log("hello");
   passport.authenticate("local", (error, theUser, failureDetails) => {
     if (error) {
       res
@@ -78,15 +80,16 @@ router.post("/login", (req, res, next) => {
         .json({ message: "Something went wrong with database query" });
       return;
     }
-
     if (!theUser) {
+      console.log("hello");
       res.status(401).json(failureDetails);
       return;
     }
+    console.log("hello");
 
     //Save User in Session
     req.login(theUser, (error) => {
-      user.passwordHash = undefined;
+      theUser.passwordHash = undefined;
       if (error) {
         return res
           .status(500)

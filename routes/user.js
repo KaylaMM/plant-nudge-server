@@ -11,7 +11,7 @@ const routeGuard = require("../config/route-guard.config");
 //User must be signed in to be able to get/post anything in database
 router.get("/users", (req, res, next) => {
   console.log("hello");
-  User.getAll()
+  User.find()
     .then((usersFromDB) => {
       console.log(usersFromDB);
       res.json(usersFromDB);
