@@ -103,6 +103,7 @@ router.post("/logout", (req, res, next) => {
   res.status(200).json({ message: "Log out success!" });
 });
 
+//not appearing when test on Postman
 router.get("/isLoggedIn", (req, res) => {
   if (req.user) {
     console.log("here: ", req.user);

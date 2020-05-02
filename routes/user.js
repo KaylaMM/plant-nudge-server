@@ -5,12 +5,12 @@ const router = express.Router();
 const User = require("../models/User");
 const uploadCloud = require("../config/cloudinary-setup");
 
-const routeGuard = require("../../configs/route-guard.configs");
+const routeGuard = require("../config/route-guard.config");
 
 //to get all users in DB
-router.get("/user", (req, res, next) => {
-  console.log(req);
-  //not sure if get all is the correct method
+//User must be signed in to be able to get/post anything in database
+router.get("/users", (req, res, next) => {
+  console.log("hello");
   User.getAll()
     .then((usersFromDB) => {
       console.log(usersFromDB);
