@@ -56,7 +56,8 @@ app.use(
 app.use("/", require("./routes/index"));
 app.use("/auth", require("./routes/auth"));
 app.use("/userPlants", require("./routes/plant"));
+//not sure if this route is needed
 app.use("/user", require("./routes/user"));
-// app.use("/plantProgress", require("./routes/progress"));
+app.use("/progressPhotos", require("./routes/progress"));
 
 module.exports = app;
