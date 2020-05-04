@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { Schema, model } = mongoose;
 const User = require("./User");
 const Plant = require("./Plant ");
 
