@@ -55,7 +55,7 @@ app.use(
 //Route SetUp
 app.use("/", require("./routes/index"));
 app.use("/auth", require("./routes/auth"));
-app.use("/plants", require("./routes/plant"));
+app.use("/userPlants", require("./routes/plant"));
 app.use("/user", require("./routes/user"));
 // app.use("/plantProgress", require("./routes/progress"));
 

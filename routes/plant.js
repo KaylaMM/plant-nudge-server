@@ -19,26 +19,34 @@ router.get("/", (req, res, next) => {
 });
 
 //Create a new Plant
-router.post("/newPlant", async (req, res, next) => {
-  const newPlant = new Plant({
-    plant: req.body.plant,
-    location: req.body.location,
-    nextWatering: req.body.next,
-    amountOfWaterNeeded: req.body.amountOfWaterNeeded,
-    progressPic: req.body.progressPic,
-  });
+// First version, new plant end point not working correctly
+// router.post("/newPlant", async (req, res, next) => {
+//   const newPlant = new Plant({
+//     plant: req.body.plant,
+//     location: req.body.location,
+//     nextWatering: req.body.next,
+//     amountOfWaterNeeded: req.body.amountOfWaterNeeded,
+//     progressPic: req.body.progressPic,
+//   });
 
-  newPlant.save().then(
-    ((newPlant) => {
-      res.json(newPlant);
-    }).catch((error) => {
-      console.log(newPlant, "message: A new plant was added!");
-    })
-  );
+//   newPlant.save().then(
+//     ((newPlant) => {
+//       res.json(newPlant);
+//     }).catch((error) => {
+//       console.log(newPlant, "message: A new plant was added!");
+//     })
+//   );
+// });
+
+//Create new Plant - Sandra's version
+router.post("/newPlant", (req, res, next) => {
+  Plant.create(req.body)
+    .then((plantDoc) => res.status(200).json({ plant: plantDoc }))
+    .catch((err) => next(err));
 });
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 //Read (Plant) Documents
-router.get("/plant", (req, res, next) => {
+router.get("/allPlants", (req, res, next) => {
   console.log(req.user);
   //below is axios call
   Plant.find({ owner: req.params._id })
@@ -51,12 +59,12 @@ router.get("/plant", (req, res, next) => {
     });
 });
 
-router.get("/plant/:plantId", (req, res, next) => {
+router.get("/allPlants/:plantId", (req, res, next) => {
   console.log("The ID from the URL is: ", plantId);
   res.json(allPlants);
 });
 
-router.get("/plant/:plantId", (req, res, next) => {
+router.get("allPlants/:plantId", (req, res, next) => {
   Plant.findOne({ _id: req.params.plantId })
     .then((thePlant) => {
       res.json(allPlants, { plant: thePlant });
@@ -71,7 +79,7 @@ router.get("/plant/:plantId", (req, res, next) => {
 router.post("/updatePlant/:id", (req, res, next) => {
   // console.log(req.body)
   Plant.findByIdAndUpdate(
-    req.params.plant_id,
+    req.params.id,
     {
       plant: req.body.plant,
       location: req.body.location,
@@ -91,12 +99,12 @@ router.post("/updatePlant/:id", (req, res, next) => {
 
 //Delete Plant
 router.post("/deletePlant/:id", (req, res, next) => {
-  Plant.findByIdAndRemove(req.params.plant_id)
+  Plant.findByIdAndRemove(req.params.id)
     .then((deletedPlant) => {
-      res.json(deletedPlant);
+      res.json({ message: "Successfully deleted!" });
     })
     .catch((error) => {
-      res.json(error);
+      next(error);
     });
 });
 

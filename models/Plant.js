@@ -4,50 +4,59 @@ const { Schema, model } = require("mongoose");
 
 const plantSchema = new Schema(
   {
-    // the user that created the board
-    plant: {
-      type: Schema.Types.ObjectId,
-      ref: "Plant",
-    },
-    // the title for the board that will be displayed to users
-    location: {
-      type: String,
-    },
-    // the jokes that will belong to the board
-    nextWatering: {
-      type: [
-        {
-          type: Schema.Types.ObjectId,
-          ref: "Type",
-        },
-      ],
-    },
-    // the messages that belong to this board
-    amountOfWaterNeeded: {
-      type: [
-        {
-          type: Schema.Types.ObjectId,
-          ref: "Water",
-        },
-      ],
-    },
-    // plant photo
+    plant: String,
+    location: String,
+    amountOfWaterNeeded: String,
     progressPic: {
       type: String,
       default:
         "https://i.pinimg.com/originals/a2/71/a3/a271a31dd5be2fe5bab0addf377aa13d.jpg",
     },
+    //-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=
+    //Original Format
+    // plant: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: "Plant",
+    // },
+    // location: {
+    //   type: String,
+    // },
+    // nextWatering: {
+    //   type: [
+    //     {
+    //       type: Schema.Types.ObjectId,
+    //       ref: "Type",
+    //     },
+    //   ],
+    // },
+    // amountOfWaterNeeded: {
+    //   type: [
+    //     {
+    //       type: Schema.Types.ObjectId,
+    //       ref: "Water",
+    //     },
+    //   ],
+    // },
+    // plant photo
+    // progressPic: {
+    //   type: String,
+    //   default:
+    //     "https://i.pinimg.com/originals/a2/71/a3/a271a31dd5be2fe5bab0addf377aa13d.jpg",
+    // },
     // Plant Page created by user
+    // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    //not sure if owner ID is needed, have to be logged in to see plant anyways
     owner: {
       type: {
         type: Schema.Types.ObjectId,
         ref: "User",
       },
     },
-  },
-  {
-    timestamps: true,
   }
+  //unsure if this is needed
+  // {
+  //   timestamps: true,
+  // }
 );
 
 module.exports = model("Plant", plantSchema);
