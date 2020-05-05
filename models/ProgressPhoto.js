@@ -1,18 +1,18 @@
 const mongoose = require("mongoose");
 const User = require("./User");
-const Plant = require("./Plant ");
+const Plant = require("./Plant");
 
 const { Schema, model } = require("mongoose");
 
 const progressPhotoSchema = new Schema(
   {
-    // the user that created the board
-    plant: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
-
+    plant: String,
     progressPic: String,
+    // the user that created the board
+    // plant: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: "User",
+    // },
     // plant photo
     // photos: {
     //   type: String,
