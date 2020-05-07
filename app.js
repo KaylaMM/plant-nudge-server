@@ -8,16 +8,16 @@ const logger = require("morgan");
 const path = require("path");
 const cors = require("cors");
 
-mongoose
-  .connect("mongodb://localhost/cloudinary-server", { useNewUrlParser: true })
-  .then((x) => {
-    console.log(
-      `Connected to Mongo! Database name: "${x.connections[0].name}"`
-    );
-  })
-  .catch((error) => {
-    console.error("Error connecting to mongo", error);
-  });
+// mongoose
+//   .connect("mongodb://localhost/cloudinary-server", { useNewUrlParser: true })
+//   .then((x) => {
+//     console.log(
+//       `Connected to Mongo! Database name: "${x.connections[0].name}"`
+//     );
+//   })
+//   .catch((error) => {
+//     console.error("Error connecting to mongo", error);
+//   });
 
 const app_name = require("./package.json").name;
 const debug = require("debug")(
@@ -28,12 +28,22 @@ const app = express();
 
 require("./config/db.config");
 
+app.use(
+  cors({
+    // origin: ["http://localhost:3001", "https://herokuAppDomainURL"],
+    origin: [process.env.FRONTEND_POINT],
+    credentials: true,
+  })
+);
+
 // Middleware Setup
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
 
+//make sure express session is used before the passport
 require("./config/session.config.js")(app);
 
 require("./config/passport/passport.config.js")(app);
@@ -43,14 +53,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // default value for title local
 app.locals.title = "Express - Generated with IronGenerator";
-
-app.use(
-  cors({
-    origin: ["http://localhost:3001", "https://herokuAppDomainURL"],
-    // origin: [process.env.FRONTEND_POINT],
-    credentials: true,
-  })
-);
 
 //Route SetUp
 app.use("/", require("./routes/index"));
