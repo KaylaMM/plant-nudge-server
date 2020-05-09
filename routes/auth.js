@@ -26,7 +26,7 @@ router.post("/signup", (req, res, next) => {
   //Password Validation
   const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
   if (!regex.test(password)) {
-    res.status(500).json({
+    res.status(400).json({
       message:
         "Password needs to have at least 8 characters, and must contain at least one number, one lowercase and one uppercase letter.",
     });
@@ -72,8 +72,7 @@ router.post("/signup", (req, res, next) => {
 
 //User LogIn
 router.post("/login", (req, res, next) => {
-  console.log("hello");
-  passport.authenticate("local", (error, theUser, failureDetails) => {
+  passport.authenticate("local", (error, theUser) => {
     if (error) {
       res
         .status(500)
@@ -81,12 +80,10 @@ router.post("/login", (req, res, next) => {
       return;
     }
     if (!theUser) {
-      console.log("hello");
-      res.status(401).json(failureDetails);
+      console.log("not Found");
+      res.status(401).json(error);
       return;
     }
-    console.log("hello");
-
     //Save User in Session
     req.login(theUser, (error) => {
       theUser.passwordHash = undefined;
@@ -114,7 +111,7 @@ router.get("/isLoggedIn", (req, res) => {
     res.status(200).json({ user: req.user });
     return;
   }
-  res.status(401).json({ message: "Unauthorized access!" });
+  res.status(304).json({ message: "Unauthorized access!" });
 });
 
 module.exports = router;
