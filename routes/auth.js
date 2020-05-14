@@ -20,6 +20,9 @@ router.post("/signup", (req, res, next) => {
   console.log("BODY", username, email, password);
   if (!username || !email || !password) {
     res.status(401).json({ message: "Indicate username, email and password" });
+    console.log(
+      "-=-=-=-=-=-=-=-=-=-=-=-=-you are not being logged in -=-=-=-=-=-=-=-=-=-=-"
+    );
     return;
   }
 
