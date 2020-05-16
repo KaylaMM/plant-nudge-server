@@ -82,11 +82,16 @@ router.post("/login", (req, res, next) => {
         .json({ message: "Something went wrong with database query" });
       return;
     }
-    if (!theUser) {
-      console.log("not Found");
-      res.status(401).json(error);
-      return;
-    }
+    // -=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-
+    // console.log("IS MAYONAISE AN INSTRUMENT");
+    // console.log("IT ISSSSS WHAT IT ISSSSSS", theUser);
+    // if (!theUser) {
+    //   console.log("not Found");
+    //   res.status(401).json(error);
+    //   return;
+    // }
+    // -=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-
+
     //Save User in Session
     req.login(theUser, (error) => {
       theUser.passwordHash = undefined;
