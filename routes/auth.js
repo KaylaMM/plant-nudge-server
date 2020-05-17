@@ -1,6 +1,6 @@
 //not sure if the two variables below are needed
 // const { Router } = require("express");
-// const router = new Router();
+const router = new Router();
 //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 const express = require("express");
 const router = express.Router();
