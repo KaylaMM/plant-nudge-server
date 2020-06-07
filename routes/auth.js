@@ -7,10 +7,6 @@ const saltRounds = 10;
 const passport = require("passport");
 const User = require("../models/User");
 
-const routeGuard = require("../config/route-guard.config");
-const uploadCloud = require("../config/cloudinary-setup");
-const ensureLogin = require("connect-ensure-login");
-
 // User SignUp
 router.post("/signup", (req, res, next) => {
   const { username, email, password, phoneNumber } = req.body;
@@ -83,8 +79,8 @@ router.post("/login", (req, res, next) => {
       return;
     }
     // -=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-
-    console.log("IS MAYONAISE AN INSTRUMENT");
-    console.log("IT ISSSSS WHAT IT ISSSSSS", theUser);
+    // console.log("IS MAYONAISE AN INSTRUMENT");
+    // console.log("IT ISSSSS WHAT IT ISSSSSS", theUser);
     if (!theUser) {
       console.log("not Found");
       res.status(401).json(error);
@@ -94,12 +90,11 @@ router.post("/login", (req, res, next) => {
 
     //Save User in Session
     req.login(theUser, (error) => {
-      theUser.passwordHash = undefined;
-      if (error) {
+      if (error)
         return res
           .status(500)
           .json({ message: "Something went wrong with login!" });
-      }
+      theUser.passwordHash = undefined;
       res.status(200).json({ message: "Login successful!", theUser });
     });
   })(req, res, next);
