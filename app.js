@@ -11,7 +11,7 @@ const cors = require("cors");
 // mongoose
 //   .connect("mongodb://localhost/cloudinary-server", { useNewUrlParser: true })
 //   .then((x) => {
-//     console.log(
+//     console.log(9
 //       `Connected to Mongo! Database name: "${x.connections[0].name}"`
 //     );
 //   })

@@ -9,7 +9,7 @@ const User = require("../models/User");
 
 // User SignUp
 router.post("/signup", (req, res, next) => {
-  const { username, email, password, phoneNumber } = req.body;
+  const { username, email, password, phoneNumber, avatar } = req.body;
   console.log("BODY", username, email, password);
   if (!username || !email || !password) {
     res.status(401).json({ message: "Indicate username, email and password" });
@@ -79,8 +79,6 @@ router.post("/login", (req, res, next) => {
       return;
     }
     // -=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-
-    // console.log("IS MAYONAISE AN INSTRUMENT");
-    // console.log("IT ISSSSS WHAT IT ISSSSSS", theUser);
     if (!theUser) {
       console.log("not Found");
       res.status(401).json(error);
