@@ -1,6 +1,4 @@
 // const mongoose = require("mongoose");
-// const { Schema, model } = mongoose;
-// const Plant = require("./Plant ");
 
 const { Schema, model } = require("mongoose");
 
@@ -39,19 +37,7 @@ const userSchema = new Schema({
     type: String,
     default:
       "https://i.pinimg.com/originals/55/2c/c0/552cc033eca6ec4b289a96777e078954.jpg",
-  },
-  //   // Plant Page created by user
-  //   plants: {
-  //     type: [
-  //       {
-  //         type: Schema.Types.ObjectId,
-  //         ref: "Plant",
-  //       },
-  //     ],
-  //   },
-  // },
-  // {
-  //   timestamps: true,
+  }
 });
 
 module.exports = model("User", userSchema);

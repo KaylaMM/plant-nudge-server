@@ -30,7 +30,7 @@ require("./config/db.config");
 
 app.use(
   cors({
-    // origin: ["http://localhost:3001", "https://herokuAppDomainURL"],
+    origin: ["http://localhost:3001", "https://herokuAppDomainURL"],
     origin: [process.env.FRONTEND_POINT],
     credentials: true,
   })

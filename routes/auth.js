@@ -13,9 +13,6 @@ router.post("/signup", (req, res, next) => {
   console.log("BODY", username, email, password);
   if (!username || !email || !password) {
     res.status(401).json({ message: "Indicate username, email and password" });
-    console.log(
-      "-=-=-=-=-=-=-=-=-=-=-=-=-you are not being logged in -=-=-=-=-=-=-=-=-=-=-"
-    );
     return;
   }
 
@@ -41,13 +38,13 @@ router.post("/signup", (req, res, next) => {
         avatar,
       })
         .then((user) => {
-          req.login(user, (error) => {
+          req.signup(user, (error) => {
             if (error)
               return res
                 .status(500)
-                .json({ message: "something went wrong with log in!" });
-            // user.passwordHash = undefined;
-            res.status(200).json({ message: "Login successful!", user });
+                .json({ message: "something went wrong with sign up!" });
+            user.passwordHash = undefined;
+            res.status(200).json({ message: "Sign up successful!", user });
           });
         })
         .catch((error) => {
@@ -69,23 +66,17 @@ router.post("/signup", (req, res, next) => {
 //User LogIn
 router.post("/login", (req, res, next) => {
   passport.authenticate("local", (error, theUser) => {
-    console.log("HELLO", theUser);
-    console.log({ error });
+    console.log("There was an error", error)
     if (error) {
       res
         .status(500)
         .json({ message: "Something went wrong with database query" });
-      return;
-    }
-    // -=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-
-    if (!theUser) {
-      console.log("not Found");
+      
+    } else if (!theUser) {
       res.status(401).json(error);
       return;
-    }
-    // -=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-
-
-    //Save User in Session
+    } else {
+    //Save User Log In in Session
     req.login(theUser, (error) => {
       if (error)
         return res
@@ -94,6 +85,7 @@ router.post("/login", (req, res, next) => {
       theUser.passwordHash = undefined;
       res.status(200).json({ message: "Login successful!", theUser });
     });
+  }
   })(req, res, next);
 });
 
@@ -106,12 +98,11 @@ router.post("/logout", (req, res, next) => {
 //not appearing when test on Postman
 router.get("/isLoggedIn", (req, res) => {
   if (req.user) {
-    console.log("here: ", req.user);
     req.user.passwordHash = undefined;
     res.status(200).json({ user: req.user });
     return;
   }
-  res.status(304).json({ message: "Unauthorized access!" });
+  res.status(flash).json({ message: "Unauthorized access!" });
 });
 
 module.exports = router;
