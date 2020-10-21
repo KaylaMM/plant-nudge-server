@@ -8,17 +8,6 @@ const logger = require("morgan");
 const path = require("path");
 const cors = require("cors");
 
-// mongoose
-//   .connect("mongodb://localhost/cloudinary-server", { useNewUrlParser: true })
-//   .then((x) => {
-//     console.log(9
-//       `Connected to Mongo! Database name: "${x.connections[0].name}"`
-//     );
-//   })
-//   .catch((error) => {
-//     console.error("Error connecting to mongo", error);
-//   });
-
 const app_name = require("./package.json").name;
 const debug = require("debug")(
   `${app_name}:${path.basename(__filename).split(".")[0]}`
@@ -44,12 +33,12 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //make sure express session is used before the passport
+
 require("./config/session.config.js")(app);
 
 require("./config/passport/passport.config.js")(app);
 
 app.use(express.static(path.join(__dirname, "public")));
-// app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 
 // default value for title local
 app.locals.title = "Express - Generated with IronGenerator";

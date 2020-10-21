@@ -9,14 +9,11 @@ passport.use(
   "local",
   new LocalStrategy(
     {
-      usernameField: "email",
-      // passReqToCallback: true // if we need to use request in the callback we can pass it like this
-      // in that case the callback would look like: (req, email, password, next)
+      usernameField: "username",
     },
-    (email, password, next) => {
-      User.findOne({ email })
+    (username, password, next) => {
+      User.findOne({ username })
         .then((userFromDB) => {
-          // console.log(password, userFromDB);
           if (!userFromDB) {
             return next(null, false, { message: "Incorrect email! 🛬" });
           }

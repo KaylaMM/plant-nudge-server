@@ -3,14 +3,13 @@
 const { Schema, model } = require("mongoose");
 
 const userSchema = new Schema({
-  // Username provided by users during signup
   username: {
     type: String,
     required: [true, "Username is required."],
     unique: true,
     trim: true,
   },
-  // Email provided by users during signup
+
   email: {
     type: String,
     required: [true, "Email is required."],
@@ -19,20 +18,19 @@ const userSchema = new Schema({
     lowercase: true,
     trim: true,
   },
-  // Password provided by users during signup
+  
   passwordHash: {
     type: String,
     required: [true, "Password is required."],
     trim: true,
   },
-  // Phonenumber provided by users during signup
-  //ISSUES WITH PHONE NUMBER REQUIERD
+  
   phoneNumber: {
     type: Number,
     required: [true, "Phone number is required."],
     trim: true,
   },
-  // User avatar provided by users during signup
+ 
   avatar: {
     type: String,
     default:
