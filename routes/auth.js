@@ -65,7 +65,6 @@ router.post("/signup", (req, res, next) => {
 
 //User LogIn
 router.post("/login", (req, res, next) => {
-  // console.log(req.body);
   passport.authenticate("local", (error, theUser, failureDetails) => {
     if (error) {
       res
