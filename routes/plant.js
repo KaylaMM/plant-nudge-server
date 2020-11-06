@@ -25,7 +25,7 @@ router.get("/", (req, res, next) => {
 //     plant: req.body.plant,
 //     location: req.body.location,
 //     nextWatering: req.body.next,
-//     amountOfWaterNeeded: req.body.amountOfWaterNeeded,
+//     OfWaterNeeded: req.body.waterNeeded,
 //     progressPic: req.body.progressPic,
 //   });
 
@@ -84,7 +84,7 @@ router.post("/updatePlant/:id", (req, res, next) => {
       plant: req.body.plant,
       location: req.body.location,
       nextWatering: req.body.nextWatering,
-      amountOfWaterNeeded: req.body.amountOfWaterNeeded,
+      waterNeeded: req.body.waterNeeded,
       progressPic: req.body.progressPic,
     },
     { new: true }

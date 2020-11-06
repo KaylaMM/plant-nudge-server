@@ -6,7 +6,7 @@ const plantSchema = new Schema(
   {
     plant: String,
     location: String,
-    amountOfWaterNeeded: String,
+    waterNeeded: String,
     progressPic: {
       type: String,
       default:
