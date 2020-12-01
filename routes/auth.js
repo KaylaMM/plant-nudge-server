@@ -30,6 +30,7 @@ router.post("/signup", (req, res, next) => {
     .genSalt(saltRounds)
     .then((salt) => bcrypt.hash(password, salt))
     .then((hashedPassword) => {
+      //user is created, but throwing error
       return User.create({
         username,
         email,
@@ -38,7 +39,7 @@ router.post("/signup", (req, res, next) => {
         avatar,
       })
         .then((user) => {
-          req.signup(user, (error) => {
+          req.login(user, (error) => {
             if (error)
               return res
                 .status(500)
@@ -59,7 +60,9 @@ router.post("/signup", (req, res, next) => {
             next(error);
           }
         })
-        .catch((error) => next(error));
+        .catch((error) => {
+          next(error);
+        });
     });
 });
 
@@ -89,12 +92,14 @@ router.post("/login", (req, res, next) => {
 
 //not appearing when test on Postman
 router.get("/isLoggedIn", (req, res) => {
+  console.log(req.session)
   if (req.user) {
     req.user.passwordHash = undefined;
     res.status(200).json({ user: req.user });
     return;
   }
-  res.status("flash").json({ message: "Unauthorized access!" });
+  res.status(500).json({ message: "Unauthorized access!" });
+  // res.status("").json({ message: "Unauthorized access!" });
 });
 
 // User LogOut
