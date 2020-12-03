@@ -15,7 +15,7 @@ passport.use(
       User.findOne({ username })
         .then((userFromDB) => {
           if (!userFromDB) {
-            return next(null, false, { message: "Incorrect email! 🛬" });
+            return next(null, false, { message: "Incorrect username 🛬" });
           }
           console.log(userFromDB.passwordHash);
           if (!bcryptjs.compareSync(password, userFromDB.passwordHash)) {

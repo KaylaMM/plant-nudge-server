@@ -18,25 +18,6 @@ router.get("/", (req, res, next) => {
     .catch((err) => res.status(500).json(err));
 });
 
-//Create a new Plant
-// First version, new plant end point not working correctly
-// router.post("/newPlant", async (req, res, next) => {
-//   const newPlant = new Plant({
-//     plant: req.body.plant,
-//     location: req.body.location,
-//     nextWatering: req.body.next,
-//     OfWaterNeeded: req.body.waterNeeded,
-//     progressPic: req.body.progressPic,
-//   });
-
-//   newPlant.save().then(
-//     ((newPlant) => {
-//       res.json(newPlant);
-//     }).catch((error) => {
-//       console.log(newPlant, "message: A new plant was added!");
-//     })
-//   );
-// });
 
 //Create new Plant - Sandra's version
 router.post("/newPlant", (req, res, next) => {
