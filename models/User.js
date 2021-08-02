@@ -18,24 +18,24 @@ const userSchema = new Schema({
     lowercase: true,
     trim: true,
   },
-  
+
   passwordHash: {
     type: String,
     required: [true, "Password is required."],
     trim: true,
   },
-  
-  phoneNumber: {
-    type: Number,
-    required: [true, "Phone number is required."],
-    trim: true,
-  },
- 
-  avatar: {
-    type: String,
-    default:
-      "https://i.pinimg.com/originals/55/2c/c0/552cc033eca6ec4b289a96777e078954.jpg",
-  }
+
+  // phoneNumber: {
+  //   type: Number,
+  //   required: [true, "Phone number is required."],
+  //   trim: true,
+  // },
+
+  // avatar: {
+  //   type: String,
+  //   default:
+  //     "https://i.pinimg.com/originals/55/2c/c0/552cc033eca6ec4b289a96777e078954.jpg",
+  // }
 });
 
 module.exports = model("User", userSchema);

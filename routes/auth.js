@@ -9,7 +9,8 @@ const User = require("../models/User");
 
 // User SignUp
 router.post("/signup", (req, res, next) => {
-  const { username, email, password, phoneNumber, avatar } = req.body;
+  const { username, email, password } = req.body;
+  // const { username, email, password, phoneNumber, avatar } = req.body;
 
   if (!username || !email || !password) {
     res.status(401).json({ message: "Indicate username, email and password" });
@@ -92,7 +93,7 @@ router.post("/login", (req, res, next) => {
 
 //not appearing when test on Postman
 router.get("/isLoggedIn", (req, res) => {
-  console.log(req.session)
+  console.log(req.session);
   if (req.user) {
     req.user.passwordHash = undefined;
     res.status(200).json({ user: req.user });
